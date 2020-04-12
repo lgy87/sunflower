@@ -25,12 +25,13 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "PORT=5555 BROWSER=none react-app-rewired start",
-    "build": "react-app-rewired build",
-    "compile:ts": "tsc -w ./src/main/entry --outDir ./src/out",
-    "electron": "electron ./src/out/entry",
+    "renderer": "PORT=5555 BROWSER=none react-app-rewired start",
+    "r": "yarn renderer",
+    "electron": "electron ./out/entry",
     "e": "yarn electron",
+    "compile:ts": "tsc -w ./main/entry --outDir ./out",
     "c": "yarn compile:ts",
+    "build": "react-app-rewired build",
     "analyze": "BUNDLE_VISUALIZE=1 react-app-rewired build",
     "test": "jest --watch --passWithNoTests --env=node",
     "test-nw": "jest --passWithNoTests",
