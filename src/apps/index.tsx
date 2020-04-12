@@ -1,6 +1,6 @@
 import React from "react"
-import Devtool from "./apps/devtool"
-import "./init"
+import "../init"
+import Devtool from "./devtool"
 
 export default function App() {
   return <Devtool />

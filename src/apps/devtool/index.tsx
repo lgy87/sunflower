@@ -1,7 +1,7 @@
 import { Card, Elevation, FileInput } from "@blueprintjs/core"
 import React from "react"
 import { useToggle } from "react-use"
-import Checkbox from "~/renderer/components/Checkbox"
+import Checkbox from "~/components/Checkbox"
 
 // eslint-disable-next-line react/display-name
 export default function Devtool() {
