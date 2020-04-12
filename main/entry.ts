@@ -7,7 +7,7 @@ const r = require("ramda")
 const ra = require("ramda-adjunct")
 const isDev = require("electron-is-dev")
 
-const paths = require("../../webpack/paths")
+const paths = require("../webpack/paths")
 
 const isDarwinEnv = r.propEq("platform", "darwin")(process)
 const { default: installExtension } = require("electron-devtools-installer")
