@@ -33,7 +33,7 @@ function Cache(props: any) {
       <FileInput
         fill
         disabled={!useCache}
-        buttonText="选择目录..."
+        buttonText="选择目录"
         text="Choose file..."
         onInputChange={() => {}}
       />

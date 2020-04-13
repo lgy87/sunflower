@@ -1,16 +1,15 @@
 const { app, BrowserWindow, globalShortcut } = require("electron")
-
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) app.quit()
 
 const r = require("ramda")
 const ra = require("ramda-adjunct")
 const isDev = require("electron-is-dev")
-
 const paths = require("../webpack/paths")
-
 const isDarwinEnv = r.propEq("platform", "darwin")(process)
 const { default: installExtension } = require("electron-devtools-installer")
+
+require("./init")
 
 let mainWindow: typeof BrowserWindow = null
 
@@ -58,13 +57,13 @@ function loadWebPage() {
 }
 
 function openDevtools() {
-  mainWindow.webContents.on("did-frame-finish-load", () => {
-    if (isDev) {
-      mainWindow.webContents.openDevTools({
-        // mode: "detach",
-      })
-    }
-  })
+  // mainWindow.webContents.on("did-frame-finish-load", () => {
+  //   if (isDev) {
+  //     mainWindow.webContents.openDevTools({
+  //       // mode: "detach",
+  //     })
+  //   }
+  // })
 }
 
 function register() {
