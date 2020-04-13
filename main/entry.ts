@@ -1,3 +1,5 @@
+import "./init"
+
 const { app, BrowserWindow, globalShortcut } = require("electron")
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) app.quit()
@@ -9,9 +11,7 @@ const paths = require("../webpack/paths")
 const isDarwinEnv = r.propEq("platform", "darwin")(process)
 const { default: installExtension } = require("electron-devtools-installer")
 
-require("./init")
-
-let mainWindow: typeof BrowserWindow = null
+let mainWindow: any
 
 app.allowRendererProcessReuse = true
 app.whenReady().then(init)

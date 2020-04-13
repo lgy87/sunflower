@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "rootDir": "./main",
+    "outDir": "./out",
+    "target": "es5",
+    "noEmit": false,
+    "baseUrl": ".",
+  },
+  "include": [
+    "./main/**/*"
+  ]
+}

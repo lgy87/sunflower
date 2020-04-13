@@ -1,3 +1,3 @@
-import level from "level"
-
-const db = level("devtool")
+export default function (...args: Array<any>) {
+  return args.reduce((a, b) => a + b, 0)
+}
