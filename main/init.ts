@@ -5,24 +5,22 @@
  */
 import { ipcMain } from "electron"
 
-const FROM_RENDERER = "FROM_RENDERER"
-const FROM_MAIN = "FROM_MAIN"
+const FROM_RENDERER = "FROM_RENDERER__"
 
-ipcMain.on(
-  FROM_RENDERER,
-  (event: any, filename: string, ...args: Array<any>) => {
-    const file = `./${filename}`
+ipcMain.on(FROM_RENDERER, (event: any, fnID: string, ...args: Array<any>) => {
+  const [filename, fn] = fnID.split("#")
+  const file = `./${filename}`
+  const [uid, ...rest] = args
 
-    try {
-      import(file)
-        .then(polyfillESMAndCommonJS)
-        .then(fn => fn(...args))
-        .then(resp => event.reply(FROM_MAIN, filename, resp))
-    } catch (e) {
-      event.reply(FROM_MAIN, filename, e)
-    }
-  },
-)
+  try {
+    import(file)
+      .then(polyfillESMAndCommonJS)
+      .then(topic => topic[fn](...rest))
+      .then(resp => event.reply(uid, resp))
+  } catch (e) {
+    event.reply(uid, e)
+  }
+})
 
 function polyfillESMAndCommonJS(imported) {
   return imported.default ? imported.default : imported

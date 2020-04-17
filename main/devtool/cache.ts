@@ -1,21 +1,32 @@
-// @ts-ignore
-import db from "@main/db"
-
-console.log(db)
+import * as r from "ramda"
+import db from "../db"
 
 const DEFAULT_CACHE_DIR = "~/.sunflower"
-console.log(DEFAULT_CACHE_DIR)
 
-async function cache() {
+export async function get() {
   try {
-    const settings = await db.get("cache")
-
-    if (settings.x) {
-      console.log(settings)
-    }
+    return (await db.get("cache")) || defaults()
   } catch (e) {
-    console.log(e)
+    return defaults()
   }
 }
 
-export default cache
+export async function defaults() {
+  return {
+    cached: false,
+    dir: DEFAULT_CACHE_DIR,
+  }
+}
+
+export async function set(settings) {
+  let old
+
+  try {
+    old = await db.get("cache")
+    return true
+  } catch (e) {
+    old = defaults()
+  } finally {
+    await db.put("cache", r.mergeRight(old, settings))
+  }
+}

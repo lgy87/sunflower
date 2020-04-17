@@ -1,4 +1,4 @@
-// @ts-ignore
-import level from "level"
+import configs from "../configs"
+const level = require("level")
 
-export default level("devtool")
+export default level(`./${configs.appName}`, { valueEncoding: "json" })

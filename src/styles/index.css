@@ -10,5 +10,9 @@ body,
 }
 body {
   margin: 0;
+  padding-top: 24px;
   background-color: #f7f8f9;
+}
+#root {
+  -webkit-app-region: no-drag;
 }

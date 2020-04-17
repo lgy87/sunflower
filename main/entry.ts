@@ -1,4 +1,5 @@
-import "./init"
+require("module-alias/register")
+require("./init")
 
 const { app, BrowserWindow, globalShortcut } = require("electron")
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -12,6 +13,8 @@ const isDarwinEnv = r.propEq("platform", "darwin")(process)
 const { default: installExtension } = require("electron-devtools-installer")
 
 let mainWindow: any
+
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true"
 
 app.allowRendererProcessReuse = true
 app.whenReady().then(init)
