@@ -1,7 +1,5 @@
-// import * as configs from "@/Entry/actions"
-// import * as gzq from "@/GZQ.NeXT/actions"
+import * as devtool from "@/devtool/actions"
 
 export default {
-  // configs,
-  // gzq,
+  devtool,
 }
