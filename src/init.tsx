@@ -9,8 +9,8 @@ FocusStyleManager.onlyShowFocusOnTabs()
 
 if (mode.isNotProd) {
   const whyDidYouRender = require("@welldone-software/why-did-you-render")
-
   const ReactRedux = require("react-redux")
+
   whyDidYouRender(React, {
     logOnDifferentValues: true,
     collapseGroups: true,

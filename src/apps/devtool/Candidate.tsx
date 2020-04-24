@@ -1,9 +1,14 @@
-import { Button, ControlGroup, InputGroup, Toaster } from "@blueprintjs/core"
+import {
+  Button,
+  ControlGroup,
+  H6,
+  InputGroup,
+  Toaster,
+} from "@blueprintjs/core"
 import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react"
 import { useUpdateEffect } from "react-use"
-import Checkbox from "~/components/Checkbox"
 import ipc from "~/utils/ipc"
 import Section from "./Section"
 import style from "./style.module.css"
@@ -20,7 +25,7 @@ type PickedDirectories = {
   filePaths: Array<string>
 }
 
-function Cache(props: any) {
+function Candidate(props: any) {
   const [cache, setCache] = useState<CacheSettings>(defaultSettings)
   const [defaultDir, setDefaultDir] = useState("")
 
@@ -53,12 +58,6 @@ function Cache(props: any) {
     })
   })
 
-  const handleCacheChange = useCallback(e => {
-    const { checked: cached } = e.target
-
-    setCache(r.assoc("cached", cached))
-  }, [])
-
   const restoreDefaults = useCallback(() => {
     fetchDefaultsDir().then((dir: Dir) => {
       setCache(r.assoc("dir", dir))
@@ -80,10 +79,7 @@ function Cache(props: any) {
 
   return (
     <Section>
-      <Checkbox onChange={handleCacheChange} value={cache.cached}>
-        使用缓存目录
-        <span className={style.tip}>临时下载的npm 包会自动缓存到该目录</span>
-      </Checkbox>
+      <H6>默认查找目录</H6>
       <ControlGroup>
         {customized || <Button onClick={restoreDefaults}>恢复默认</Button>}
         <InputGroup
@@ -98,8 +94,11 @@ function Cache(props: any) {
           icon="folder-close"
         ></Button>
       </ControlGroup>
+      {cache.cached && (
+        <div className={style.status}>(临时下载的npm 包会自动缓存到该目录)</div>
+      )}
     </Section>
   )
 }
 
-export default memo(Cache)
+export default memo(Candidate)

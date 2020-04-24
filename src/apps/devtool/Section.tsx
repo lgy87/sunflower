@@ -1,5 +1,5 @@
 import { Card, Elevation } from "@blueprintjs/core"
-import React, { createRef, memo } from "react"
+import React, { memo } from "react"
 
 const style = {
   margin: 8,
@@ -7,15 +7,8 @@ const style = {
 }
 
 function Section(props: any) {
-  const ref = createRef<any>()
-  // const hovering = useHoverDirty(ref)
-  const hovering = true
   return (
-    <Card
-      ref={ref}
-      style={style}
-      elevation={hovering ? Elevation.ONE : Elevation.ONE}
-    >
+    <Card style={style} elevation={Elevation.TWO}>
       {props.children}
     </Card>
   )
