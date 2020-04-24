@@ -43,30 +43,4 @@ export const fetchDefaultDir = createAsyncAction(
     })
   })
 
-  const handleCacheChange = useCallback(e => {
-    const { checked: cached } = e.target
-
-    setCache(r.assoc("cached", cached))
-  }, [])
-
-  const restoreDefaults = useCallback(() => {
-    fetchDefaultsDir().then((dir: Dir) => {
-      setCache(r.assoc("dir", dir))
-    })
-  }, [fetchDefaultsDir])
-
-  useUpdateEffect(() => {
-    ipc.devtool.cache
-      .set(cache)
-      .catch((e: any) => (Toaster as any).show(e.message))
-  }, [cache, setCache])
-
-  const restoreDefaultDisabled = useMemo(() => {
-    if (!cache.cached) return true
-    if (defaultDir === cache.dir) return true
-
-    return false
-  }, [cache.cached, cache.dir, defaultDir])
-
-
   */

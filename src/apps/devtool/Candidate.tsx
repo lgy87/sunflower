@@ -1,24 +1,6 @@
-import {
-  Button,
-  ControlGroup,
-  H6,
-  InputGroup,
-  Toaster,
-} from "@blueprintjs/core"
-import * as r from "ramda"
-import * as ra from "ramda-adjunct"
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react"
-import { useUpdateEffect } from "react-use"
-import ipc from "~/utils/ipc"
+import { Button, ButtonGroup, Menu, MenuItem } from "@blueprintjs/core"
+import React, { memo, useMemo } from "react"
 import Section from "./Section"
-import style from "./style.module.css"
-
-const defaultSettings = {
-  cached: false,
-  dir: "",
-}
-export type CacheSettings = typeof defaultSettings
-type Dir = CacheSettings["dir"]
 
 type PickedDirectories = {
   canceled: boolean
@@ -26,79 +8,41 @@ type PickedDirectories = {
 }
 
 function Candidate(props: any) {
-  const [cache, setCache] = useState<CacheSettings>(defaultSettings)
-  const [defaultDir, setDefaultDir] = useState("")
-
-  const fetchDefaultsSettings = useCallback(() => {
-    return ipc.devtool.cache.defaults()
-  }, [])
-
-  const fetchDefaultsDir = useCallback(
-    () => fetchDefaultsSettings().then(r.prop("dir")),
-    [fetchDefaultsSettings],
-  )
-
-  const pickDir = useCallback(() => {
-    ipc.dialogs.dir.get().then((resp: PickedDirectories) => {
-      if (ra.isTrue(resp.canceled)) return
-
-      setCache(r.assoc("dir", resp.filePaths[0]))
-    })
-  }, [])
-
-  useEffect(() => {
-    ipc.devtool.cache.get().then((resp: CacheSettings) => {
-      setCache(resp)
-    })
-  }, [setCache])
-
-  useEffect(() => {
-    fetchDefaultsDir().then((dir: Dir) => {
-      setDefaultDir(dir)
-    })
-  })
-
-  const restoreDefaults = useCallback(() => {
-    fetchDefaultsDir().then((dir: Dir) => {
-      setCache(r.assoc("dir", dir))
-    })
-  }, [fetchDefaultsDir])
-
-  useUpdateEffect(() => {
-    ipc.devtool.cache
-      .set(cache)
-      .catch((e: any) => (Toaster as any).show(e.message))
-  }, [cache, setCache])
-
-  const customized = useMemo(() => {
-    if (!cache.cached) return true
-    if (defaultDir === cache.dir) return true
-
-    return false
-  }, [cache.cached, cache.dir, defaultDir])
+  const dirs = ["c://abc/", "d://a/b/c/d/e/f/g/", "aaaaa", "ok"]
 
   return (
     <Section>
-      <H6>默认查找目录</H6>
-      <ControlGroup>
-        {customized || <Button onClick={restoreDefaults}>恢复默认</Button>}
-        <InputGroup
-          value={cache.dir}
-          fill={true}
-          disabled={!cache.cached}
-          readOnly
-        />
-        <Button
-          disabled={!cache.cached}
-          onClick={pickDir}
-          icon="folder-close"
-        ></Button>
-      </ControlGroup>
-      {cache.cached && (
-        <div className={style.status}>(临时下载的npm 包会自动缓存到该目录)</div>
-      )}
+      <Menu>
+        {dirs.map((dir, index) => (
+          <MenuItem
+            key={index}
+            text={dir}
+            labelElement={<Actions count={dirs.length} index={index} />}
+          />
+        ))}
+      </Menu>
     </Section>
   )
 }
 
 export default memo(Candidate)
+
+type Action = (index: number) => void
+type ActionsProps = {
+  index: number
+  count: number
+  onMoveUp: Action
+}
+function Actions({ index, count, onMoveUp }: ActionsProps) {
+  const first = useMemo(() => index === 0, [index])
+  const last = useMemo(() => index === count - 1, [count, index])
+
+  return (
+    <ButtonGroup>
+      <Button icon="arrow-up" disabled={first} onClick={onMoveUp} />
+      <Button icon="arrow-down" disabled={last} />
+      <Button icon="trash" />
+      <Button icon="edit" />
+    </ButtonGroup>
+  )
+}
