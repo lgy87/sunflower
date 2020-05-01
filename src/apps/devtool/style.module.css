@@ -3,3 +3,19 @@
   font-size: 0.9em;
   padding-left: 1em;
 }
+.subtitle {
+  font-weight: bold;
+}
+.menu {
+  padding-left: 0;
+  padding-right: 0;
+}
+.menuItem {
+  cursor: text!important;
+}
+.menuItemText  {
+  line-height: 30px;
+}
+.tag  {
+  margin: 4px;
+}

@@ -1,5 +1,5 @@
 import { ConnectedRouter } from "connected-react-router"
-import React, { StrictMode } from "react"
+import React from "react"
 import ReactDOM from "react-dom"
 import { Provider } from "react-redux"
 import App from "~/apps"
@@ -10,12 +10,10 @@ import { RootState } from "./store/types"
 const store = configureStore({} as RootState)
 
 ReactDOM.render(
-  <StrictMode>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>
-  </StrictMode>,
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
   document.getElementById("root"),
 )

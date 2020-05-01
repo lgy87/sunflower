@@ -1,0 +1,15 @@
+.selector {
+  height: 10px;
+  position: fixed;
+  right: 8px;
+  top: -2px;
+}
+.button {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.menuItem {
+  text-decoration: none!important;
+  display: block;
+  color: black;
+}

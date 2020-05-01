@@ -24,9 +24,7 @@ function Cache(props: any) {
   const [cache, setCache] = useState<CacheSettings>(defaultSettings)
   const [defaultDir, setDefaultDir] = useState("")
 
-  const fetchDefaultsSettings = useCallback(() => {
-    return ipc.devtool.cache.defaults()
-  }, [])
+  const fetchDefaultsSettings = useCallback(ipc.devtool.cache.defaults, [])
 
   const fetchDefaultsDir = useCallback(
     () => fetchDefaultsSettings().then(r.prop("dir")),
@@ -81,8 +79,8 @@ function Cache(props: any) {
   return (
     <Section>
       <Checkbox onChange={handleCacheChange} value={cache.cached}>
-        使用缓存目录
-        <span className={style.tip}>临时下载的npm 包会自动缓存到该目录</span>
+        <span className={style.subtitle}>使用缓存目录</span>
+        <span className={style.tip}>临时下载的npm包会自动缓存到该目录</span>
       </Checkbox>
       <ControlGroup>
         {customized || <Button onClick={restoreDefaults}>恢复默认</Button>}

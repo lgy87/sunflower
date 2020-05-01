@@ -1,5 +1,5 @@
-import { combineReducers } from "redux"
 import { createReducer, PayloadAction } from "typesafe-actions"
+import { combineReducers } from "redux"
 import { fetchSettings } from "./actions"
 
 // const defaultSettings = {

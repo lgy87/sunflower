@@ -8,7 +8,7 @@ const style = {
 
 function Section(props: any) {
   return (
-    <Card style={style} elevation={Elevation.TWO}>
+    <Card style={style} elevation={Elevation.ONE}>
       {props.children}
     </Card>
   )

@@ -1,5 +1,5 @@
-import makeDict from "./index"
 import instanceOfTypes from "~/utils/instanceOfTypes"
+import makeDict from "./index"
 
 describe("makeDict", () => {
   it("可以正常从数组生成字典", () => {

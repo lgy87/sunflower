@@ -1,10 +1,14 @@
-import React from "react"
+import React, { lazy } from "react"
 import { useDispatch } from "react-redux"
 import { useEffectOnce } from "react-use"
+import Suspense from "~/components/Suspense"
 import ipc from "~/utils/ipc"
 import { fetchSettings } from "./actions"
-import Cache from "./Cache"
-import Candidate from "./Candidate"
+
+const Cache = lazy(() => import("./Cache"))
+const Candidate = lazy(() => import("./Candidate"))
+const Modules = lazy(() => import("./Modules"))
+
 export default function Devtool() {
   const dispatch = useDispatch()
 
@@ -13,9 +17,10 @@ export default function Devtool() {
   })
 
   return (
-    <>
+    <Suspense>
       <Cache />
       <Candidate />
-    </>
+      <Modules />
+    </Suspense>
   )
 }
