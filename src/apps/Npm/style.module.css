@@ -1,0 +1,24 @@
+.table {
+  width: 100%;
+  border: 1px solid rgb(235, 241, 245);
+  margin-top: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.name {
+  width: 100px;
+}
+.src {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.actions {
+  padding: 0;
+}
+.selected {
+  background-color: rgb(235, 241, 245);
+}
+.clientContainer {
+  margin-right: 40px!important;
+}

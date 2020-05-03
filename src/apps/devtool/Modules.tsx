@@ -1,7 +1,7 @@
 import { Tag } from "@blueprintjs/core"
 import React, { FC, memo, useEffect, useState } from "react"
+import Section from "~/components/Section"
 import ipc from "~/utils/ipc"
-import Section from "./Section"
 import style from "./style.module.css"
 
 const Modules: FC<{}> = props => {

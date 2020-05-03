@@ -4,8 +4,8 @@ import * as ra from "ramda-adjunct"
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react"
 import { useUpdateEffect } from "react-use"
 import Checkbox from "~/components/Checkbox"
+import Section from "~/components/Section"
 import ipc from "~/utils/ipc"
-import Section from "./Section"
 import style from "./style.module.css"
 
 const defaultSettings = {

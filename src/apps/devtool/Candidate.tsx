@@ -3,9 +3,9 @@ import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 import React, { memo, useCallback, useEffect, useMemo } from "react"
 import { useList } from "react-use"
+import Section from "~/components/Section"
 import ipc from "~/utils/ipc"
 import toaster from "~/utils/toaster"
-import Section from "./Section"
 import style from "./style.module.css"
 
 type Dir = string
