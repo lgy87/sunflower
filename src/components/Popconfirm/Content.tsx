@@ -11,6 +11,8 @@ type Props = {
   confirmButtonText: string
   onCancel?: CallbackHandler
   onConfirm: CallbackHandler
+  cancelButtonIntent?: Intent
+  confirmButtonIntent?: Intent
 }
 
 const Component: FC<Props> = ({
@@ -19,18 +21,24 @@ const Component: FC<Props> = ({
   confirmButtonText,
   onCancel,
   onConfirm,
+  cancelButtonIntent,
+  confirmButtonIntent,
 }) => {
   const className = cx(style.button, Classes.POPOVER_DISMISS)
   return (
     <div className={style.content}>
       <H5>{title}</H5>
       <ButtonGroup>
-        <Button className={className} onClick={onCancel || ra.noop}>
+        <Button
+          className={className}
+          onClick={onCancel || ra.noop}
+          intent={cancelButtonIntent || Intent.NONE}
+        >
           {cancelButtonText}
         </Button>
         <Button
           className={Classes.POPOVER_DISMISS}
-          intent={Intent.DANGER}
+          intent={confirmButtonIntent || Intent.DANGER}
           onClick={onConfirm || ra.noop}
         >
           {confirmButtonText}
