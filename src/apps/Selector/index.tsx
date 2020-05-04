@@ -9,6 +9,7 @@ import { ItemListRenderer, ItemRenderer, Select } from "@blueprintjs/select"
 import * as ra from "ramda-adjunct"
 import React, { FC, memo, useCallback } from "react"
 import { useHistory, useLocation } from "react-router"
+import storage from "~/utils/storage"
 import { App, apps } from "./configs"
 import style from "./style.module.css"
 
@@ -24,8 +25,9 @@ const Selector: FC<void> = props => {
   const history = useHistory()
 
   const switchApp = useCallback(
-    item => {
+    async (item: App) => {
       history.push(item.path)
+      await storage.setItem("LAST_APP_PATH", item.path)
     },
     [history],
   )
