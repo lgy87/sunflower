@@ -1,12 +1,11 @@
-import { Button, ButtonGroup, HTMLTable } from "@blueprintjs/core"
-import cx from "classnames"
-import React, { FC, useCallback, useMemo, useState } from "react"
+import React, { useState } from "react"
 import { useEffectOnce, useList } from "react-use"
 import { Box, Flex } from "reflexbox"
-import Popconfirm from "~/components/Popconfirm"
 import Section from "~/components/Section"
 import ipc from "~/utils/ipc"
-import Clients from "./Clients"
+import ActionBar from "./ActionBar"
+import Clients, { ClientValue } from "./Clients"
+import Sources from "./Sources"
 import "./style.css"
 import style from "./style.module.css"
 
@@ -30,11 +29,11 @@ type TableRowProps = Source & {
   onClick: IndexUpdateHandler
 }
 
-const clients = ["npm", "yarn"] as Array<ClientValues>
+const clients = ["npm", "yarn"] as Array<ClientValue>
 export default function Npm() {
   const [sources, { set }] = useList<Source>([])
-  const [activedClient, setActivedClient] = useState<ClientValues>("npm")
-  const [activedIndex, setActivedIndex] = useState(-1)
+  const [activedClient, setActivedClient] = useState<ClientValue>("npm")
+  // const [activedIndex, setActivedIndex] = useState(-1)
 
   useEffectOnce(() => {
     ipc.npm.source.defaults().then((x: any) => {
@@ -43,9 +42,9 @@ export default function Npm() {
     })
   })
 
-  const handleActivedIndexChange: IndexUpdateHandler = useCallback(index => {
-    setActivedIndex(index)
-  }, [])
+  // const handleActivedIndexChange: IndexUpdateHandler = useCallback(index => {
+  //   setActivedIndex(index)
+  // }, [])
   console.log(Flex, Box)
   return (
     <Section>
@@ -61,95 +60,7 @@ export default function Npm() {
           <ActionBar />
         </Box>
       </Flex>
-
-      <HTMLTable className={style.table} data-id="npm">
-        <TableRows
-          items={sources}
-          activedIndex={activedIndex}
-          onActivedIndexChange={handleActivedIndexChange}
-        />
-      </HTMLTable>
+      <Sources items={sources} />
     </Section>
-  )
-}
-const ActionBar = (props: any) => {
-  return (
-    <ButtonGroup>
-      <Button icon="refresh" text="Restore" />
-      <Button icon="plus" text="Add" onClick={props.addSource} />
-      <Button icon="edit" text="Edit" />
-      <Popconfirm
-        title="确认删除？"
-        cancelButtonText="先不删了"
-        confirmButtonText="删除!"
-        onConfirm={props.removeSource}
-      >
-        <Button icon="trash" text="Remove" />
-      </Popconfirm>
-      <Button
-        icon="selection"
-        text="Select"
-        onClick={props.updateActiveSourceIndex}
-      />
-    </ButtonGroup>
-  )
-}
-const TableRows: FC<TableRowsProps> = ({
-  items,
-  activedIndex,
-  onActivedIndexChange,
-}) => {
-  return (
-    <tbody>
-      {items.map((row, index) => (
-        <TableRow
-          key={index}
-          index={index}
-          count={items.length}
-          onClick={onActivedIndexChange}
-          selected={activedIndex === index}
-          {...row}
-        />
-      ))}
-    </tbody>
-  )
-}
-
-const TableRow: FC<TableRowProps> = ({
-  index,
-  count,
-  name,
-  src,
-  onClick,
-  selected,
-}) => {
-  const className = useMemo(() => cx({ [style.selected]: selected }), [
-    selected,
-  ])
-
-  const first = useMemo(() => index === 0, [index])
-  const last = useMemo(() => index === count - 1, [count, index])
-
-  return (
-    <tr onDoubleClick={() => onClick(index)} className={className}>
-      <td className={style.name}>{name}</td>
-      <td className={style.src}>{src}</td>
-      <td className={style.actions}>
-        <ButtonGroup>
-          <Button
-            icon="arrow-up"
-            disabled={first}
-            onClick={() => moveUp(index)}
-          />
-          <Button
-            icon="arrow-down"
-            disabled={last}
-            onClick={() => moveDown!(index)}
-          />
-          <Button icon="trash" onClick={() => remove!(index)} />
-          <Button icon="edit" onClick={() => edit!(index)} />
-        </ButtonGroup>
-      </td>
-    </tr>
   )
 }

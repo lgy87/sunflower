@@ -1,14 +1,33 @@
-.table {
-  width: 100%;
-  border: 1px solid rgb(235, 241, 245);
-  margin-top: 10px;
+.sources {
+  --bg: rgb(235, 241, 245);
+
   border-radius: 4px;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+  list-style: none outside none;
+  border: 1px solid var(--bg);
   overflow: hidden;
+}
+.item {
+  display: flex;
+  padding-right: 4px;
+  justify-content: space-between;
+  line-height: 40px;
+  align-items: center;
+}
+.item:hover {
+  background-color: var(--bg);
+}
+.indicator {
+  width: 5px;
 }
 .name {
   width: 100px;
+  padding-left: 10px;
 }
 .src {
+  flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -17,8 +36,9 @@
   padding: 0;
 }
 .selected {
-  background-color: rgb(235, 241, 245);
+  background-color: var(--bg);
 }
 .clientContainer {
   margin-right: 40px!important;
 }
+

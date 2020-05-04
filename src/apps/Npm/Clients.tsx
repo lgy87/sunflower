@@ -1,12 +1,12 @@
 import { Button, ButtonGroup } from "@blueprintjs/core"
 import React, { FC, memo } from "react"
 
-type ClientValues = "npm" | "yarn"
-type ClientChangeHandler = (value: ClientValues) => void
+export type ClientValue = "npm" | "yarn"
+export type ClientChangeHandler = (value: ClientValue) => void
 type ClientsProps = {
-  clients: Array<ClientValues>
+  clients: Array<ClientValue>
   onChange: ClientChangeHandler
-  activedClient: ClientValues
+  activedClient: ClientValue
 }
 const Clients: FC<ClientsProps> = ({ clients, onChange, activedClient }) => {
   return (
