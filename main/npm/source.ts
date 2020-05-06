@@ -1,4 +1,5 @@
 import * as r from "ramda"
+import * as ra from "ramda-adjunct"
 import db from "../db"
 
 type Source = {
@@ -7,8 +8,9 @@ type Source = {
 }
 type ClientSources = Record<"npm" | "yarn", Array<Source>>
 
-const NPM_KEY = "npm.source"
-const YARN_KEY = "yarn.source"
+function buildKey(client: string): string {
+  return `${client.toLowerCase()}.source`
+}
 
 export function defaults(): Array<Source> {
   return [
@@ -21,32 +23,75 @@ export function defaults(): Array<Source> {
     { name: "edunpm", src: "http://registry.enpmjs.org/" },
   ]
 }
-async function source(key): Promise<Array<Source>> {
+export async function get(client: string): Promise<Array<Source>> {
   try {
+    const key = buildKey(client)
     return await db.get(key)
   } catch (e) {
-    await db.put(key, defaults())
+    await set(client, defaults())
     return defaults()
   }
 }
 
+export async function set(client: string, value: Array<Source>) {
+  try {
+    const key = buildKey(client)
+    await db.put(key, value)
+    return true
+  } catch (e) {
+    return e
+  }
+}
+
 export async function all(): Promise<ClientSources> {
-  const npm = await source(NPM_KEY)
-  const yarn = await source(YARN_KEY)
+  const npm = await get("npm")
+  const yarn = await get("yarn")
 
   return {
     npm,
     yarn,
   }
 }
-export async function remove(client: string, index: number) {
-  const key = buildKey(client)
-  const items = await source(key)
 
-  await db.put(key, r.remove(index, 1, items))
+export async function remove(client: string, index: number) {
+  const items = await get(client)
+
+  await set(client, r.remove(index, 1, items))
   return true
 }
 
-function buildKey(client: string): string {
-  return `${client.toLowerCase()}.source`
+export async function restore(client: string) {
+  await set(client, defaults())
+  return true
+}
+
+export async function moveUp(client: string, index: number) {
+  if (ra.isNilOrEmpty(index)) return true
+  if (index === 0) return true
+
+  try {
+    const items = await get(client)
+    const target = items.splice(index, 1)[0]
+    items.splice(index - 1, 0, target)
+    await set(client, items)
+    return true
+  } catch (e) {
+    return e
+  }
+}
+
+export async function moveDown(client: string, index: number) {
+  return moveUp(client, index + 1)
+}
+
+export async function add(client: string, index: number, source: Source) {
+  try {
+    const items = await get(client)
+    items.splice(index, 0, source)
+
+    await set(client, items)
+    return true
+  } catch (e) {
+    return e
+  }
 }

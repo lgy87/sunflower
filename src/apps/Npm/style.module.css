@@ -15,9 +15,7 @@
   justify-content: space-between;
   line-height: 40px;
   align-items: center;
-}
-.item:hover {
-  background-color: var(--bg);
+  cursor: pointer;
 }
 .indicator {
   width: 5px;
@@ -36,7 +34,7 @@
   padding: 0;
 }
 .selected {
-  background-color: var(--bg);
+  background-color:  var(--bg);
 }
 .clientContainer {
   margin-right: 40px!important;

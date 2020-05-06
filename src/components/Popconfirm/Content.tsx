@@ -25,6 +25,7 @@ const Component: FC<Props> = ({
   confirmButtonIntent,
 }) => {
   const className = cx(style.button, Classes.POPOVER_DISMISS)
+
   return (
     <div className={style.content}>
       <H5>{title}</H5>

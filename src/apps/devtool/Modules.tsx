@@ -1,4 +1,4 @@
-import { Tag } from "@blueprintjs/core"
+import { Intent, Tag } from "@blueprintjs/core"
 import React, { FC, memo, useEffect, useState } from "react"
 import Section from "~/components/Section"
 import ipc from "~/utils/ipc"
@@ -25,7 +25,7 @@ const Modules: FC<{}> = props => {
           round
           large
           interactive
-          intent="primary"
+          intent={Intent.PRIMARY}
           minimal
           onRemove={() => {}}
         >
