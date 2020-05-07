@@ -9,10 +9,12 @@ import ipc from "~/utils/ipc"
 import storage from "~/utils/storage"
 import toaster from "~/utils/toaster"
 import ActionBar, { Action as ActionBarAction } from "./ActionBar"
-import Clients, { ClientValue } from "./Clients"
+import ClientSwitcher from "./ClientSwitcher"
 import Sources, { Action as SourcesAction, Source } from "./Sources"
 import "./style.css"
 import style from "./style.module.css"
+import type { ClientValue } from "./types"
+import useClient from "./useClient"
 
 type AllSources = Record<ClientValue, Array<Source>>
 
@@ -28,6 +30,7 @@ export default function Npm() {
   const [alertOpen, setAlertOpen] = useToggle(false)
   const [newSource, { set: set2 }] = useMap({ name: "", src: "" } as Source)
   const [newSourceIndex, setNewSourceIndex] = useState(-1)
+  const [client1, setClient] = useClient<ClientValue>("npm")
 
   const client = useMemo(() => clients[activedClientIndex], [
     activedClientIndex,
@@ -135,10 +138,12 @@ export default function Npm() {
     <Section>
       <Flex>
         <Box className={style.clientContainer}>
-          <Clients
+          <ClientSwitcher
             clients={clients}
-            current={activedClientIndex}
-            onChange={setActivedClientIndex}
+            // @ts-ignore
+            current={client1}
+            // @ts-ignore
+            onChange={setClient}
           />
         </Box>
         <Box>
@@ -162,7 +167,6 @@ export default function Npm() {
         cancelButtonText="先不添加了"
         confirmButtonText="添加"
         canEscapeKeyCancel
-        icon="info-sign"
         transitionDuration={200}
         intent={Intent.PRIMARY}
         style={{ width: "100%" }}
@@ -171,15 +175,16 @@ export default function Npm() {
         <FormGroup label="Name">
           <InputGroup
             fill
+            data-field="ooo"
             value={newSource.name}
-            onChange={(e: any) => set2("name", e.target.value)}
+            // onChange={(e: any) => set2("name", e.target.value)}
           />
         </FormGroup>
         <FormGroup label="URL">
           <InputGroup
             fill
             value={newSource.src}
-            onChange={(e: any) => set2("src", e.target.value)}
+            // onChange={(e: any) => set2("src", e.target.value)}
           />
         </FormGroup>
       </Alert>
