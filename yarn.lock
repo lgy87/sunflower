@@ -4904,6 +4904,11 @@ electron-is-dev@^1.1.0:
   resolved "https://registry.npm.taobao.org/electron-is-dev/download/electron-is-dev-1.2.0.tgz#2e5cea0a1b3ccf1c86f577cee77363ef55deb05e"
   integrity sha1-LlzqChs8zxyG9XfO53Nj71XesF4=
 
+electron-react-devtools@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.npm.taobao.org/electron-react-devtools/download/electron-react-devtools-0.5.3.tgz#c74edb1245dc1cfe1380b93016cd4eb588ed00b7"
+  integrity sha1-x07bEkXcHP4TgLkwFs1OtYjtALc=
+
 electron-squirrel-startup@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/electron-squirrel-startup/download/electron-squirrel-startup-1.0.0.tgz#19b4e55933fa0ef8f556784b9c660f772546a0b8"

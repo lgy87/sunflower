@@ -39,4 +39,6 @@
 .clientContainer {
   margin-right: 40px!important;
 }
-
+.cl {
+  width: 100%;
+}

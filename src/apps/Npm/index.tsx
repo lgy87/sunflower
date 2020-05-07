@@ -1,4 +1,4 @@
-import { Alert, FormGroup, InputGroup } from "@blueprintjs/core"
+import { Alert, FormGroup, InputGroup, Intent } from "@blueprintjs/core"
 import * as r from "ramda"
 import * as ra from "ramda-adjunct"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
@@ -25,11 +25,10 @@ export default function Npm() {
   const [activedClientIndex, setActivedClientIndex] = useState(0)
   const [lastClientIndex, setLastClientIndex] = useState(-1)
   const [selectedIndexes, { updateAt }] = useList([-1, -1])
-  const [alertOpen, setAlertOpen] = useToggle(true)
+  const [alertOpen, setAlertOpen] = useToggle(false)
   const [newSource, { set: set2 }] = useMap({ name: "", src: "" } as Source)
   const [newSourceIndex, setNewSourceIndex] = useState(-1)
 
-  console.log(setAlertOpen, set2)
   const client = useMemo(() => clients[activedClientIndex], [
     activedClientIndex,
   ])
@@ -101,7 +100,11 @@ export default function Npm() {
 
   const doAdd = useCallback(() => {
     if (ra.isFalsy(newSource.name)) {
-      toaster.warning({ message: "sfdsfsd" })
+      toaster.warning({ message: "兄台，填个名字呗！" })
+      return
+    }
+    if (ra.isFalsy(newSource.src)) {
+      toaster.warning({ message: "兄台，填个URL呗！" })
       return
     }
     ipc.npm.source
@@ -109,7 +112,11 @@ export default function Npm() {
       .then(() => setAlertOpen(false))
       .then(() => ipc.npm.source.get(client))
       .then((resp: Array<Source>) => set(client, resp))
-  }, [client, newSource, newSourceIndex, set, setAlertOpen])
+      .then(() => {
+        set2("name", "")
+        set2("src", "")
+      })
+  }, [client, newSource, newSourceIndex, set, set2, setAlertOpen])
 
   const moveDown: SourcesAction = useCallback(
     index => {
@@ -150,16 +157,27 @@ export default function Npm() {
       <Alert
         isOpen={alertOpen}
         onConfirm={doAdd}
+        canOutsideClickCancel
         onCancel={() => setAlertOpen(false)}
+        cancelButtonText="先不添加了"
+        confirmButtonText="添加"
+        canEscapeKeyCancel
+        icon="info-sign"
+        transitionDuration={200}
+        intent={Intent.PRIMARY}
+        style={{ width: "100%" }}
+        className={style.cl}
       >
         <FormGroup label="Name">
           <InputGroup
+            fill
             value={newSource.name}
             onChange={(e: any) => set2("name", e.target.value)}
           />
         </FormGroup>
         <FormGroup label="URL">
           <InputGroup
+            fill
             value={newSource.src}
             onChange={(e: any) => set2("src", e.target.value)}
           />
