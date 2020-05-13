@@ -12,7 +12,6 @@ if (mode.isNotProd) {
   const ReactRedux = require("react-redux")
 
   whyDidYouRender(React, {
-    logOnDifferentValues: true,
     collapseGroups: true,
     trackAllPureComponents: true,
     trackExtraHooks: [[ReactRedux, "useSelector"]],

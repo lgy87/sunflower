@@ -25,7 +25,7 @@ const ActionBar: FC<Props> = ({ restore }) => {
       <Button icon="plus" text="Add" onClick={() => {}} />
       <Button
         icon="selection"
-        text="Select"
+        text="Use"
         // onClick={props.updateActiveSourceIndex}
       />
     </ButtonGroup>

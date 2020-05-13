@@ -1,6 +1,12 @@
+import * as fs from "fs"
+import * as path from "path"
 import * as r from "ramda"
 import * as ra from "ramda-adjunct"
+import { promisify } from "util"
 import db from "../db"
+import isFile from "../internal/isFile"
+
+const readFile = promisify(fs.readFile)
 
 type Source = {
   name: string
@@ -90,8 +96,32 @@ export async function add(client: string, index: number, source: Source) {
     items.splice(index, 0, source)
 
     await set(client, items)
-    return true
+    return items
   } catch (e) {
     return e
   }
+}
+
+export async function using(client: string) {
+  const filename = path.resolve(
+    `${process.env.HOME}${path.sep}.${client.toLowerCase()}rc`,
+  )
+  const isAFile = await isFile(filename)
+
+  if (r.not(isAFile)) return null
+
+  const fileContent = await readFile(filename, { encoding: "utf-8" })
+  const re = /^registry[ =]"?(https:\/\/[^"/]+)/m
+  const matched = re.exec(fileContent)
+
+  if (r.isNil(matched)) return null
+
+  const [, src] = matched
+
+  const sourceList = await get(client)
+  const hit = sourceList.find(item => item.src.startsWith(src))
+
+  if (r.isNil(hit)) return null
+
+  return hit.name
 }

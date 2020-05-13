@@ -18,7 +18,12 @@
   cursor: pointer;
 }
 .indicator {
+  display: inline-block;
   width: 5px;
+  height: 30px;
+}
+.using > span:first-child {
+  background-color: green;
 }
 .name {
   width: 100px;
@@ -38,7 +43,4 @@
 }
 .clientContainer {
   margin-right: 40px!important;
-}
-.cl {
-  width: 100%;
 }

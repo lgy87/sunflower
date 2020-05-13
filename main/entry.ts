@@ -53,7 +53,6 @@ function createWindow() {
 }
 
 function loadWebPage() {
-  console.log(paths.DIST)
   const url = isDev
     ? "http://localhost:5555/"
     : `file://${paths.DIST}/index.html`

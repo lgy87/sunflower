@@ -1,51 +1,61 @@
 import { Button, ButtonGroup } from "@blueprintjs/core"
 import cx from "classnames"
-import React, { FC, memo, useCallback } from "react"
+import * as ra from "ramda-adjunct"
+import React, { FC, memo, useCallback, useMemo } from "react"
 import Popconfirm from "~/components/Popconfirm"
 import style from "./style.module.css"
-
-export type Source = {
-  name: string
-  src: string
-}
-export type Action = Fn<number, void>
+import { ClientValue, Sources as SourcesType } from "./types"
+import { Action, SelectedSources } from "./useSelectedSources"
 
 type Props = {
-  items: Array<Source>
-  selectedIndex: number
+  value: SourcesType
+  client: ClientValue
+  selectedSources: SelectedSources
+  usingClient: string
   select: Action
-  remove: Action
-  moveUp: Action
-  moveDown: Action
-  add: Action
+  remove: Fn<ClientValue, number, void>
+  // moveUp: Action
+  // moveDown: Action
+  // add: Action
 }
 
 const Sources: FC<Props> = ({
-  items = [],
-  selectedIndex,
+  value,
+  client,
+  selectedSources,
+  usingClient,
   select,
   remove,
-  moveUp,
-  moveDown,
-  add,
+  // moveUp,
+  // moveDown,
+  // add,
 }) => {
+  const items = useMemo(() => value[client], [client, value]) || []
+
   const isFirst = useCallback((index: number) => index === 0, [])
   const isLast = useCallback((index: number) => index === items.length - 1, [
     items.length,
   ])
 
   const getLiClassName = useCallback(
-    index => cx(style.item, selectedIndex === index && style.selected),
-    [selectedIndex],
+    (name: string) => {
+      return cx(style.item, {
+        [style.selected]: selectedSources[client] === name,
+        [style.using]: usingClient === name,
+      })
+    },
+    [client, selectedSources, usingClient],
   )
+
+  if (ra.lengthEq(0, items)) return null
 
   return (
     <ul className={style.sources}>
       {items.map((source, index) => (
         <li
-          key={source.src}
-          className={getLiClassName(index)}
-          onClick={() => select(index)}
+          key={source.name}
+          className={getLiClassName(source.name)}
+          onClick={() => select(client, source.name)}
         >
           <span className={style.indicator}></span>
           <span className={style.name}>{source.name}</span>
@@ -54,19 +64,19 @@ const Sources: FC<Props> = ({
             <Button
               icon="arrow-up"
               disabled={isFirst(index)}
-              onClick={() => moveUp(index)}
+              // onClick={() => moveUp(index)}
             />
             <Button
               icon="arrow-down"
               disabled={isLast(index)}
-              onClick={() => moveDown(index)}
+              // onClick={() => moveDown(index)}
             />
-            <Button icon="plus" onClick={() => add(index)} />
+            <Button icon="plus" onClick={() => {}} />
             <Popconfirm
               title="确认删除？"
               cancelButtonText="先不删了"
               confirmButtonText="删除!"
-              onConfirm={() => remove(index)}
+              onConfirm={() => remove(client, index)}
             >
               <Button icon="trash" />
             </Popconfirm>

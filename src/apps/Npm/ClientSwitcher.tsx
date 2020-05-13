@@ -1,5 +1,5 @@
 import { Button, ButtonGroup } from "@blueprintjs/core"
-import React, { FC, memo, MouseEvent, useCallback } from "react"
+import React, { FC, memo, ReactEventHandler, useCallback } from "react"
 import type { ClientValue } from "./types"
 
 export type ClientChangeHandler = Fn<ClientValue, void>
@@ -10,13 +10,13 @@ type ClientsProps = {
 }
 
 const ClientSwitcher: FC<ClientsProps> = ({ clients, onChange, current }) => {
-  const handleChange: MouseEvent<HTMLElement> = useCallback(
-    newClient => {
-      const client = newClient.target.textContent
-      onChange(client)
+  const handleChange: ReactEventHandler<HTMLElement> = useCallback(
+    ({ target }) => {
+      onChange((target as HTMLButtonElement).innerText as ClientValue)
     },
     [onChange],
   )
+
   return (
     <ButtonGroup>
       {clients.map(client => (
