@@ -6,10 +6,14 @@ export type App = {
 export const apps: Array<App> = [
   {
     title: "NPM 源管理",
-    path: "/npm",
+    path: "npm",
   },
   {
     title: "Devtool",
     path: "devtool",
+  },
+  {
+    title: "RegExp",
+    path: "regexp",
   },
 ]

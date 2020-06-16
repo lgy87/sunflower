@@ -10,6 +10,7 @@ const Devtool = lazy(() => import("./Devtool"))
 const YAOF = lazy(() => import("./YAOF"))
 const Selector = lazy(() => import("./Selector"))
 const Npm = lazy(() => import("./Npm"))
+const RegExp = lazy(() => import("./RegExp"))
 
 function App() {
   const [lastAppPath, setLastAppPath] = useState("")
@@ -28,6 +29,7 @@ function App() {
         <Route path="/devtool" component={Devtool} />
         <Route path="/yaof" component={YAOF} />
         <Route path="/npm" component={Npm} />
+        <Route path="/regexp" component={RegExp} />
         <Redirect to={lastAppPath} />
       </Switch>
       <Route component={Selector} />
