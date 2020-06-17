@@ -3,10 +3,10 @@ import React, { FC, memo, useState } from "react"
 
 const Selector: FC<void> = props => {
   const [re, setRe] = useState("(?<=300)400")
-  const [text] = useState("300400 232400 300400 232400".replace(/ /g, "\n"))
+  const [text] = useState("232400 300400 300400 232400".replace(/ /g, "\n"))
 
   const x = () => {
-    const temp = new RegExp(re) //_.escapeRegExp(re))
+    const temp = new RegExp(re, "g")
     console.log(temp)
     console.log(temp.exec(text))
   }

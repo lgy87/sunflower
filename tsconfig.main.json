@@ -4,10 +4,16 @@
     "outDir": "./out",
     "target": "es5",
     "noEmit": false,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "@main/*": ["./main/*"]
+      "~/*": [
+        "./src/*"
+      ],
+      "@main/*": [
+        "./main/*"
+      ]
     }
   },
   "include": [
