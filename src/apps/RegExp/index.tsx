@@ -1,7 +1,7 @@
 import { Button, InputGroup, Intent, TextArea } from "@blueprintjs/core"
 import React, { FC, memo, useState } from "react"
 
-const Selector: FC<void> = props => {
+const Selector: FC<{}> = props => {
   const [re, setRe] = useState("(?<=300)400")
   const [text] = useState("232400 300400 300400 232400".replace(/ /g, "\n"))
 

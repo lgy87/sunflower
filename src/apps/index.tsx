@@ -1,10 +1,8 @@
 import * as ra from "ramda-adjunct"
 import React, { lazy, useState } from "react"
 import { hot } from "react-hot-loader"
-import { Redirect, Route, Switch } from "react-router-dom"
-import { useEffectOnce } from "react-use"
+import { Route, Routes } from "react-router-dom"
 import Suspense from "~/components/Suspense"
-import storage from "~/utils/storage"
 
 const Devtool = lazy(() => import("./Devtool"))
 const YAOF = lazy(() => import("./YAOF"))
@@ -13,26 +11,26 @@ const Npm = lazy(() => import("./Npm"))
 const RegExp = lazy(() => import("./RegExp"))
 
 function App() {
-  const [lastAppPath, setLastAppPath] = useState("")
+  const [lastAppPath /*setLastAppPath*/] = useState("")
 
-  useEffectOnce(() => {
-    storage
-      .getItem<string>("LAST_APP_PATH")
-      .then(lastAppPath => setLastAppPath(lastAppPath || "/devtool"))
-  })
+  // useEffectOnce(() => {
+  //   storage
+  //     .getItem<string>("LAST_APP_PATH")
+  //     .then(lastAppPath => setLastAppPath(lastAppPath || "/devtool"))
+  // })
 
   if (ra.isFalsy(lastAppPath)) return null
 
   return (
     <Suspense>
-      <Switch>
-        <Route path="/devtool" component={Devtool} />
-        <Route path="/yaof" component={YAOF} />
-        <Route path="/npm" component={Npm} />
-        <Route path="/regexp" component={RegExp} />
-        <Redirect to={lastAppPath} />
-      </Switch>
-      <Route component={Selector} />
+      <Routes>
+        <Route path="/devtool" element={<Devtool />} />
+        <Route path="/yaof" element={<YAOF />} />
+        <Route path="/npm" element={<Npm />} />
+        <Route path="/regexp" element={<RegExp />} />
+        {/* <Redirect to={lastAppPath} /> */}
+      </Routes>
+      <Route element={<Selector />} />
     </Suspense>
   )
 }
