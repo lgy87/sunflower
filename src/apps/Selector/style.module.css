@@ -7,6 +7,8 @@
 .button {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  font-size: 12px;
+  font-weight: 700;
 }
 .menuItem {
   text-decoration: none!important;

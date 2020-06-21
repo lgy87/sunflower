@@ -2,22 +2,21 @@ html,
 body {
   -webkit-app-region: drag;
   user-select: none;
-}
-html,
-body,
-#root {
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 body {
-  margin: 0;
   margin-top: 24px;
+  padding: 8px;
+  padding-top: 0;
   height: calc(100% - 24px);
   background-color: #f7f8f9;
-  overflow-y: scroll;
-
+  overflow-y: hidden;
 }
 #root {
+  position: relative;
   -webkit-app-region: no-drag;
-  padding-top: 2px;
+  height: 100%;
   overflow-y: scroll;
 }

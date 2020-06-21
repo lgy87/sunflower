@@ -16,6 +16,7 @@ type Props = Overwrite<ReactSuspenseProps, Fallback> & {
 }
 
 const loading = <Loading className={style.loading} />
+
 const Suspense: FC<Props> = ({ children }) => {
   return <ReactSuspense fallback={loading}>{children}</ReactSuspense>
 }

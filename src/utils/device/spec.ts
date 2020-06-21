@@ -1,4 +1,4 @@
-import { factory, Device } from "./index"
+import { Device, factory } from "./index"
 
 describe("device", () => {
   describe("web", () => {

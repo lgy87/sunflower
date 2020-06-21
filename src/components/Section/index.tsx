@@ -1,15 +1,27 @@
 import { Card, Elevation } from "@blueprintjs/core"
-import React, { memo } from "react"
+import React, { CSSProperties, FC, memo, ReactNode, useMemo } from "react"
+import { Size } from "~/types"
 
-const style = {
-  margin: 8,
-  marginTop: 0,
+type Props = {
+  height?: Size
+  children?: ReactNode
+  style?: CSSProperties
 }
 
-function Section(props: any) {
+const Section: FC<Props> = ({ height, style, children }) => {
+  const style_ = useMemo(
+    () => ({
+      margin: "1px",
+      marginBottom: "8px",
+      height,
+      ...style,
+    }),
+    [height, style],
+  )
+
   return (
-    <Card style={style} elevation={Elevation.ONE}>
-      {props.children}
+    <Card style={style_} elevation={Elevation.ONE}>
+      {children}
     </Card>
   )
 }

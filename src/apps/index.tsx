@@ -1,8 +1,10 @@
 import * as ra from "ramda-adjunct"
 import React, { lazy, useState } from "react"
-import { hot } from "react-hot-loader"
-import { Route, Routes } from "react-router-dom"
+import { hot } from "react-hot-loader/root"
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
+import { useEffectOnce } from "react-use"
 import Suspense from "~/components/Suspense"
+import storage from "~/utils/storage"
 
 const Devtool = lazy(() => import("./Devtool"))
 const YAOF = lazy(() => import("./YAOF"))
@@ -10,14 +12,21 @@ const Selector = lazy(() => import("./Selector"))
 const Npm = lazy(() => import("./Npm"))
 const RegExp = lazy(() => import("./RegExp"))
 
-function App() {
-  const [lastAppPath /*setLastAppPath*/] = useState("")
+const defaultAppPath = "/devtool"
 
-  // useEffectOnce(() => {
-  //   storage
-  //     .getItem<string>("LAST_APP_PATH")
-  //     .then(lastAppPath => setLastAppPath(lastAppPath || "/devtool"))
-  // })
+function App() {
+  const [lastAppPath, setLastAppPath] = useState("")
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+
+  useEffectOnce(() => {
+    storage.getItem<string>("LAST_APP_PATH").then(lastAppPath => {
+      setLastAppPath(lastAppPath || defaultAppPath)
+      setTimeout(() => {
+        pathname === "/" && navigate(lastAppPath, { replace: true })
+      })
+    })
+  })
 
   if (ra.isFalsy(lastAppPath)) return null
 
@@ -28,11 +37,10 @@ function App() {
         <Route path="/yaof" element={<YAOF />} />
         <Route path="/npm" element={<Npm />} />
         <Route path="/regexp" element={<RegExp />} />
-        {/* <Redirect to={lastAppPath} /> */}
       </Routes>
       <Route element={<Selector />} />
     </Suspense>
   )
 }
 
-export default hot(module)(App)
+export default hot(App)

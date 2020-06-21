@@ -3,7 +3,7 @@
  * 2019/08/21
  * lgy87@foxmail.com
  */
-const fn = function() {
+const fn = function () {
   return "just-a-function"
 }
 
