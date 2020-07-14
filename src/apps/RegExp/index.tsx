@@ -1,19 +1,23 @@
 import {
   Button,
+  Classes,
   InputGroup,
-  Intent,
   Menu,
   MenuItem,
   Popover,
   Position,
-  TextArea,
 } from "@blueprintjs/core"
-import React, { FC, memo } from "react"
+import cx from "classnames"
+import React, { FC, memo, useState } from "react"
 import SplitPane from "react-split-pane"
 import Section from "~/components/Section"
 import "./style.css"
 
-const RegExp: FC<{}> = props => {
+const RegExp_: FC<{}> = props => {
+  const [regexp, setRegexp] = useState("")
+  const [src, setSrc] = useState("")
+  console.log(setSrc)
+
   return (
     <Section style={style}>
       <SplitPane primary="first" size="50%" minSize="50%">
@@ -24,16 +28,22 @@ const RegExp: FC<{}> = props => {
             placeholder="insert your regular expression here"
             rightElement={permissionsMenu}
             // small={small}
+            value={regexp}
+            onChange={(e: any) => {
+              setRegexp(e.target.value)
+              const re = new RegExp(e.target.value, "g")
+              console.log(src.matchAll(re))
+            }}
           />
-          <TextArea
-            style={{ width: "100%", marginTop: 8 }}
-            rows={10}
-            growVertically={true}
-            large={true}
-            intent={Intent.PRIMARY}
-            // value={text}
-            // onChange={(e: any) => setText(e.target.value)}
-          />
+          <div
+            contentEditable
+            suppressContentEditableWarning
+            style={{ marginTop: 8, height: "calc(100vh - 88px)" }}
+            className={cx(Classes.INPUT)}
+            onInput={e => setSrc((e.target as any).textContent)}
+          >
+            {src}
+          </div>
         </div>
         <SplitPane split="horizontal">
           <div>safsd</div>
@@ -73,7 +83,7 @@ const permissionsMenu = (
   </Popover>
 )
 
-export default memo(RegExp)
+export default memo(RegExp_)
 
 const style = {
   padding: 0,

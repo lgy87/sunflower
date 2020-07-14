@@ -5,11 +5,11 @@ describe("mode", () => {
     let mode: Mode
 
     beforeAll(() => {
-      const process = {
+      const process = ({
         env: {
           NODE_ENV: modes.prod,
         },
-      } as NodeJS.Process
+      } as unknown) as NodeJS.Process
 
       mode = factory(process)
     })
@@ -31,11 +31,11 @@ describe("mode", () => {
     let mode: Mode
 
     beforeAll(() => {
-      const process = {
+      const process = ({
         env: {
           NODE_ENV: modes.dev,
         },
-      } as NodeJS.Process
+      } as unknown) as NodeJS.Process
       mode = factory(process)
     })
 
@@ -57,11 +57,11 @@ describe("mode", () => {
     let mode: Mode
 
     beforeAll(() => {
-      const process = {
+      const process = ({
         env: {
           NODE_ENV: modes.test,
         },
-      } as NodeJS.Process
+      } as unknown) as NodeJS.Process
       mode = factory(process)
     })
 

@@ -1,7 +1,6 @@
 import { FocusStyleManager } from "@blueprintjs/core"
 import "@blueprintjs/core/lib/css/blueprint.css"
 import React from "react"
-import { setConfig } from "react-hot-loader"
 import "~/styles/index.css"
 import mode from "~/utils/mode"
 
@@ -17,8 +16,3 @@ if (mode.isNotProd) {
     trackExtraHooks: [[ReactRedux, "useSelector"]],
   })
 }
-
-setConfig({
-  ignoreSFC: true,
-  pureRender: true,
-})
